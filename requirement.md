@@ -1,6 +1,8 @@
 Task Manager Application
+
+
 1. Business Objective
-To build a lightweight Task Manager that demonstrates how AI‑assisted development (GitHub Copilot) accelerates application delivery while maintaining code quality and structure.
+To design and develop a lightweight Task Management Application that maintains a clean and well‑structured codebase, follows standard architectural patterns, and supports the creation, management, and tracking of tasks in a consistent and maintainable manner.
 
 2. Stakeholders
 
@@ -41,6 +43,7 @@ The system shall retain tasks after page refresh using local storage.
 The application shall be intuitive and easy to use.
 The system shall respond quickly to user interactions.
 The codebase shall follow industry‑standard best practices.
+
 
 
 7. Success Criteria
