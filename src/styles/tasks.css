@@ -1,0 +1,129 @@
+/* ── Layout ─────────────────────────────────── */
+.tasks-page {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: system-ui, sans-serif;
+}
+
+.tasks-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.tasks-page__header h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+/* ── Button ─────────────────────────────────── */
+.btn {
+  padding: 0.4rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.btn:hover:not(:disabled) {
+  background: #f3f4f6;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Task List ──────────────────────────────── */
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.task-list__message {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.task-list__error {
+  color: #dc2626;
+}
+
+.task-list__error button {
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+/* ── Task Item ──────────────────────────────── */
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.task-item--completed {
+  opacity: 0.6;
+}
+
+.task-item--completed .task-item__title {
+  text-decoration: line-through;
+}
+
+.task-item__status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #f97316;
+  flex-shrink: 0;
+}
+
+.task-item__status-dot--done {
+  background: #22c55e;
+}
+
+.task-item__title {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.task-item__status {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: capitalize;
+}
+
+/* ── Priority Badge ─────────────────────────── */
+.badge {
+  font-size: 0.73rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.badge--low {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.badge--medium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge--high {
+  background: #fee2e2;
+  color: #991b1b;
+}
