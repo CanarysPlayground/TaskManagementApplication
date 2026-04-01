@@ -1,19 +1,15 @@
-import { v4 as uuidv4 } from 'uuid';
-import { Task, CreateTaskBody, Priority, Status } from '../models/task';
-import { seedTasks } from './taskSeed';
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.validPriorities = void 0;
+exports.getAllTasks = getAllTasks;
+exports.getFilteredTasks = getFilteredTasks;
+exports.createTask = createTask;
+const uuid_1 = require("uuid");
+const taskSeed_1 = require("./taskSeed");
 /** In-memory task store. Pre-loaded with seed data on startup. */
-const tasks: Task[] = [...seedTasks];
-
+const tasks = [...taskSeed_1.seedTasks];
 /** Allowed priority values for a task. */
-export const validPriorities: Priority[] = ['Low', 'Medium', 'High'];
-
-/** Optional filters for querying tasks. */
-export interface TaskFilters {
-  status?: Status;
-  priority?: Priority;
-}
-
+exports.validPriorities = ['Low', 'Medium', 'High'];
 /**
  * Returns all tasks currently held in memory.
  *
@@ -23,10 +19,9 @@ export interface TaskFilters {
  * // GET /tasks
  * const all = getAllTasks(); // []
  */
-export function getAllTasks(): Task[] {
-  return tasks;
+function getAllTasks() {
+    return tasks;
 }
-
 /**
  * Returns tasks filtered by optional status and/or priority.
  * Omitting a filter means that dimension is not restricted.
@@ -46,14 +41,15 @@ export function getAllTasks(): Task[] {
  * // GET /tasks?status=pending&priority=High
  * const urgent = getFilteredTasks({ status: 'pending', priority: 'High' });
  */
-export function getFilteredTasks(filters: TaskFilters): Task[] {
-  return tasks.filter((task) => {
-    if (filters.status !== undefined && task.status !== filters.status) return false;
-    if (filters.priority !== undefined && task.priority !== filters.priority) return false;
-    return true;
-  });
+function getFilteredTasks(filters) {
+    return tasks.filter((task) => {
+        if (filters.status !== undefined && task.status !== filters.status)
+            return false;
+        if (filters.priority !== undefined && task.priority !== filters.priority)
+            return false;
+        return true;
+    });
 }
-
 /**
  * Creates a new task and appends it to the in-memory store.
  *
@@ -75,15 +71,15 @@ export function getFilteredTasks(filters: TaskFilters): Task[] {
  * //   createdAt: '2026-03-31T07:00:00.000Z'
  * // }
  */
-export function createTask(body: CreateTaskBody): Task {
-  const { title, priority = 'Medium' } = body;
-  const newTask: Task = {
-    id: uuidv4(),
-    title: title.trim(),
-    status: 'pending',
-    priority,
-    createdAt: new Date().toISOString(),
-  };
-  tasks.push(newTask);
-  return newTask;
+function createTask(body) {
+    const { title, priority = 'Medium' } = body;
+    const newTask = {
+        id: (0, uuid_1.v4)(),
+        title: title.trim(),
+        status: 'pending',
+        priority,
+        createdAt: new Date().toISOString(),
+    };
+    tasks.push(newTask);
+    return newTask;
 }

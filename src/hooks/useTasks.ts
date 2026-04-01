@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Task } from '../models/task';
-import { fetchTasks } from '../services/taskApiService';
+import { fetchTasks, TaskFilterParams } from '../services/taskApiService';
 
 interface UseTasksResult {
   tasks: Task[];
   loading: boolean;
   error: string | null;
+  filters: TaskFilterParams;
+  setFilters: (filters: TaskFilterParams) => void;
   reload: () => void;
 }
 
@@ -14,13 +16,14 @@ export function useTasks(): UseTasksResult {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [filters, setFilters] = useState<TaskFilterParams>({});
 
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
     setError(null);
 
-    fetchTasks()
+    fetchTasks(filters)
       .then((data) => {
         if (!cancelled) setTasks(data);
       })
@@ -34,9 +37,9 @@ export function useTasks(): UseTasksResult {
     return () => {
       cancelled = true;
     };
-  }, [refreshKey]);
+  }, [refreshKey, filters]);
 
   const reload = () => setRefreshKey((k) => k + 1);
 
-  return { tasks, loading, error, reload };
+  return { tasks, loading, error, filters, setFilters, reload };
 }

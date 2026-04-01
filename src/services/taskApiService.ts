@@ -1,4 +1,4 @@
-import { Task } from '../models/task';
+import { Task, Priority, Status } from '../models/task';
 
 const API_BASE = '/tasks';
 
@@ -7,8 +7,19 @@ export interface TasksResponse {
   tasks: Task[];
 }
 
-export async function fetchTasks(): Promise<Task[]> {
-  const response = await fetch(API_BASE);
+export interface TaskFilterParams {
+  status?: Status;
+  priority?: Priority;
+}
+
+export async function fetchTasks(filters?: TaskFilterParams): Promise<Task[]> {
+  const params = new URLSearchParams();
+  if (filters?.status) params.set('status', filters.status);
+  if (filters?.priority) params.set('priority', filters.priority);
+
+  const url = params.toString() ? `${API_BASE}?${params.toString()}` : API_BASE;
+
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to fetch tasks: ${response.statusText}`);
   }

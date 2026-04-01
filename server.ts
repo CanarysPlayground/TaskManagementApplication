@@ -1,15 +1,33 @@
 import express, { Request, Response } from 'express';
 import { execSync } from 'child_process';
-import { CreateTaskBody } from './src/models/task';
-import { getAllTasks, createTask, validPriorities } from './src/services/taskService';
+import { CreateTaskBody, Priority, Status } from './src/models/task';
+import { getFilteredTasks, createTask, validPriorities } from './src/services/taskService';
+
+const validStatuses: Status[] = ['pending', 'completed'];
 
 // --- App setup ---
 const app = express();
 app.use(express.json());
 
-// GET /tasks — return all tasks created during the session
-app.get('/tasks', (_req: Request, res: Response) => {
-  const tasks = getAllTasks();
+// GET /tasks — return tasks, optionally filtered by ?status= and/or ?priority=
+app.get('/tasks', (req: Request, res: Response) => {
+  const { status, priority } = req.query;
+
+  if (status !== undefined && !validStatuses.includes(status as Status)) {
+    res.status(400).json({ error: `status must be one of: ${validStatuses.join(', ')}.` });
+    return;
+  }
+
+  if (priority !== undefined && !validPriorities.includes(priority as Priority)) {
+    res.status(400).json({ error: `priority must be one of: ${validPriorities.join(', ')}.` });
+    return;
+  }
+
+  const tasks = getFilteredTasks({
+    status: status as Status | undefined,
+    priority: priority as Priority | undefined,
+  });
+
   res.status(200).json({
     count: tasks.length,
     tasks,
