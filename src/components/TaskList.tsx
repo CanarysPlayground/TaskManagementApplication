@@ -10,12 +10,17 @@ interface TaskListProps {
   loading: boolean;
   error: string | null;
   onReload: () => void;
+  isFiltered?: boolean;
 }
 
-export function TaskList({ tasks, loading, error, onReload }: TaskListProps) {
+export function TaskList({ tasks, loading, error, onReload, isFiltered }: TaskListProps) {
   if (loading) return <TaskListLoading />;
   if (error) return <TaskListError message={error} onRetry={onReload} />;
-  if (tasks.length === 0) return <TaskListEmpty />;
+  if (tasks.length === 0) {
+    return isFiltered
+      ? <p className="task-list__message">No tasks match the current filters.</p>
+      : <TaskListEmpty />;
+  }
 
   return (
     <ul className="task-list">

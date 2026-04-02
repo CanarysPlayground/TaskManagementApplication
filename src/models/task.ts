@@ -13,3 +13,8 @@ export interface CreateTaskBody {
   title: string;
   priority?: Priority;
 }
+
+export interface TaskFilter {
+  status?: Status;
+  priority?: Priority;
+}

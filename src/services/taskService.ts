@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Task, CreateTaskBody, Priority } from '../models/task';
+import { Task, CreateTaskBody, Priority, TaskFilter } from '../models/task';
 import { seedTasks } from './taskSeed';
 
 /** In-memory task store. Pre-loaded with seed data on startup. */
@@ -19,6 +19,14 @@ export const validPriorities: Priority[] = ['Low', 'Medium', 'High'];
  */
 export function getAllTasks(): Task[] {
   return tasks;
+}
+
+export function filterTasks(filter: TaskFilter): Task[] {
+  return tasks.filter((task) => {
+    if (filter.status !== undefined && task.status !== filter.status) return false;
+    if (filter.priority !== undefined && task.priority !== filter.priority) return false;
+    return true;
+  });
 }
 
 /**

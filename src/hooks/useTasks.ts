@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Task } from '../models/task';
+import { Task, TaskFilter } from '../models/task';
 import { fetchTasks } from '../services/taskApiService';
 
 interface UseTasksResult {
@@ -9,7 +9,7 @@ interface UseTasksResult {
   reload: () => void;
 }
 
-export function useTasks(): UseTasksResult {
+export function useTasks(filter?: TaskFilter): UseTasksResult {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -20,7 +20,7 @@ export function useTasks(): UseTasksResult {
     setLoading(true);
     setError(null);
 
-    fetchTasks()
+    fetchTasks(filter)
       .then((data) => {
         if (!cancelled) setTasks(data);
       })
@@ -34,7 +34,7 @@ export function useTasks(): UseTasksResult {
     return () => {
       cancelled = true;
     };
-  }, [refreshKey]);
+  }, [refreshKey, filter?.status, filter?.priority]);
 
   const reload = () => setRefreshKey((k) => k + 1);
 
